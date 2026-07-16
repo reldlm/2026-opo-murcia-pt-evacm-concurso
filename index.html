@@ -74,6 +74,12 @@ footer { color: var(--muted); font-size: 0.8em; margin-top: 28px; }
 footer code { font-size: 0.95em; }
 svg text { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
 .destacado { color: var(--serie); font-weight: 600; }
+.progress-track { width: 100%; height: 10px; background: var(--grid); border-radius: 999px; overflow: hidden; }
+.progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--serie), var(--serie-suave)); border-radius: 999px; transition: width 0.3s ease; }
+.trib-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+.trib-chip { width: 34px; text-align: center; padding: 4px 0; border-radius: 6px; font-size: 0.78em; font-variant-numeric: tabular-nums; border: 1px solid var(--border); color: var(--muted); }
+.trib-chip.publicado { background: var(--serie); border-color: var(--serie); color: #fff; font-weight: 600; }
+.trib-chip.eva { outline: 2px solid var(--ink-2); outline-offset: 1px; }
 </style>
 </head>
 <body>
@@ -112,6 +118,13 @@ svg text { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
     <div class="value">94ª</div>
     <div class="note">de 258 con media y baremo reales (Eva con su 7,4059 calculado); converge a la posición definitiva</div>
   </div>
+</div>
+
+<div class="card">
+  <h2>Baremos publicados: 12 de 20 tribunales</h2>
+  <p class="desc">257 rivales ya cuentan con su baremo REAL en este estudio. El tribunal de Eva es el 06: cuando publique, su baremo confirmado pasará a ser el oficial.</p>
+  <div class="progress-track"><div class="progress-fill" id="progresoBaremos"></div></div>
+  <div class="trib-chips" id="chipsTribunales"></div>
 </div>
 
 <div class="card">
@@ -223,7 +236,24 @@ const CURVA = [[6.5, 0.0], [6.55, 0.0], [6.6, 0.0], [6.65, 0.0], [6.7, 0.0], [6.
 const CORTE = 268, N_SIM = 10.000;
 const EVA_FINAL = parseFloat("7,4059".replace(",", "."));
 
+const TRIBS_BAREMO = ["01", "03", "04", "07", "09", "10", "11", "12", "13", "14", "18", "20"];   // tribunales con baremos publicados
+const TRIB_EVA = "06";
+
 const css = (v) => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+
+/* ---------- 0. Progreso de baremos por tribunal ---------- */
+(function () {
+  document.getElementById('progresoBaremos').style.width = (100 * TRIBS_BAREMO.length / 20) + '%';
+  const cont = document.getElementById('chipsTribunales');
+  for (let i = 1; i <= 20; i++) {
+    const n = String(i).padStart(2, '0');
+    const chip = document.createElement('div');
+    chip.className = 'trib-chip' + (TRIBS_BAREMO.includes(n) ? ' publicado' : '') + (n === TRIB_EVA ? ' eva' : '');
+    chip.textContent = n;
+    chip.title = (n === TRIB_EVA ? 'Tribunal de Eva — ' : 'Tribunal ' + n + ' — ') + (TRIBS_BAREMO.includes(n) ? 'baremos publicados' : 'pendiente');
+    cont.appendChild(chip);
+  }
+})();
 const NS = 'http://www.w3.org/2000/svg';
 function el(tag, attrs, parent) {
   const e = document.createElementNS(NS, tag);
