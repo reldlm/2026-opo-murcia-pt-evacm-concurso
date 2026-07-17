@@ -99,9 +99,9 @@ svg text { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
     <div class="note">posición mediana ≈182ª de 268</div>
   </div>
   <div class="tile">
-    <div class="label">Si el baremo queda corto (nota 7,1)</div>
-    <div class="value">&gt;99,9%</div>
-    <div class="note">posición mediana ≈225ª</div>
+    <div class="label">Peor caso matemático</div>
+    <div class="value">189º</div>
+    <div class="note">aunque TODOS los baremos pendientes fueran perfectos — plaza GARANTIZADA</div>
   </div>
   <div class="tile">
     <div class="label">Horquilla al 90% (nota calculada)</div>
@@ -116,25 +116,15 @@ svg text { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
   <div class="tile">
     <div class="label">Posición entre notas finales YA publicadas</div>
     <div class="value">170ª</div>
-    <div class="note">de 462 con media y baremo reales (Eva con su 7,4059 calculado); converge a la posición definitiva</div>
+    <div class="note">de 462 con media y baremo reales (Eva con su 7,4059 oficial); converge a la posición definitiva</div>
   </div>
 </div>
 
 <div class="card">
   <h2>Baremos publicados: 19 de 20 tribunales</h2>
-  <p class="desc">461 rivales ya cuentan con su baremo REAL en este estudio. El tribunal de Eva es el 06: cuando publique, su baremo confirmado pasará a ser el oficial.</p>
+  <p class="desc">461 rivales ya cuentan con su baremo REAL en este estudio. El tribunal de Eva es el 06 y su baremo es baremo REAL publicado por su tribunal.</p>
   <div class="progress-track"><div class="progress-fill" id="progresoBaremos"></div></div>
   <div class="trib-chips" id="chipsTribunales"></div>
-</div>
-
-<div class="card">
-  <h2>Probabilidad de plaza según la nota final que le quede</h2>
-  <p class="desc">La nota final exacta de Eva depende de cómo bareme la comisión sus méritos: la banda sombreada es su horquilla realista (7,1 – 7,4). La línea vertical marca la nota calculada con su baremo confirmado (7,4059).</p>
-  <div class="chart-wrap" id="chartCurva"></div>
-  <details>
-    <summary>Ver como tabla</summary>
-    <table id="tablaCurva"></table>
-  </details>
 </div>
 
 <div class="card">
@@ -151,7 +141,7 @@ svg text { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
       <tr><td><strong>2026</strong></td><td><strong>268</strong></td><td class="destacado">este estudio</td><td>+20 de reserva de discapacidad (solo 7 aspirantes de reserva han aprobado; las no cubiertas se acumulan a la siguiente convocatoria, como en 2016)</td></tr>
     </tbody>
   </table>
-  <p class="desc" style="margin:10px 0 0;">Con la nota que Eva espera (7,1 – 7,4) no habría tenido plaza en 2013, 2016 ni 2024, habría estado justa en 2022 y habría entrado con holgura en 2019 — la convocatoria más parecida a 2026 en volumen de plazas (y 2026 ofrece un 29% más que 2019). El corte que simula este estudio para 2026 (≈6,77, con 490 aprobados estimados de la fase de oposición) es coherente con esa serie: queda algo por debajo del corte real de 2019, como corresponde a una oferta mayor.</p>
+  <p class="desc" style="margin:10px 0 0;">Con su nota final oficial (7,4059) Eva no habría tenido plaza en 2013, 2016 ni 2024, habría estado justa en 2022 y habría entrado con holgura en 2019 — la convocatoria más parecida a 2026 en volumen de plazas (y 2026 ofrece un 29% más que 2019). El corte que simula este estudio para 2026 (≈6,77, con 490 aprobados de la fase de oposición) es coherente con esa serie: queda algo por debajo del corte real de 2019, como corresponde a una oferta mayor.</p>
 </div>
 
 <div class="card">
@@ -187,8 +177,7 @@ svg text { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
       <tr><td>Sin baremo aún, pero imposible que adelanten (ni con baremo perfecto)</td><td>9</td></tr>
     </tbody>
   </table>
-  <p class="desc" style="margin:14px 0 10px;"><strong>Posición final de Eva acotada: entre la 172ª y la 189ª</strong> (mejor caso: ninguno de los "depende" la adelanta; peor caso: la adelantan todos). Y si la comisión recortara el baremo de Eva, estos serían los peores casos matemáticos:</p>
-  <table id="tablaPeores"></table>
+  <p class="desc" style="margin:14px 0 0;"><strong>Posición final de Eva acotada: entre la 172ª y la 189ª</strong> de 268 plazas (mejor caso: ninguno de los "depende" la adelanta; peor caso matemático: la adelantan todos → 189º, plaza GARANTIZADA). Con su baremo ya oficial, no queda ningún escenario hipotético sobre sus propios méritos.</p>
 </div>
 
 <div class="card">
@@ -234,12 +223,9 @@ svg text { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
 const HIST_POS = [[0, 0], [4, 0], [8, 0], [12, 0], [16, 0], [20, 0], [24, 0], [28, 0], [32, 0], [36, 0], [40, 0], [44, 0], [48, 0], [52, 0], [56, 0], [60, 0], [64, 0], [68, 0], [72, 0], [76, 0], [80, 0], [84, 0], [88, 0], [92, 0], [96, 0], [100, 0], [104, 0], [108, 0], [112, 0], [116, 0], [120, 0], [124, 0], [128, 0], [132, 0], [136, 0], [140, 0], [144, 0], [148, 0], [152, 0], [156, 0], [160, 0], [164, 0], [168, 0], [172, 0], [176, 372], [180, 8908], [184, 720], [188, 0], [192, 0], [196, 0], [200, 0], [204, 0], [208, 0], [212, 0], [216, 0], [220, 0], [224, 0], [228, 0], [232, 0], [236, 0], [240, 0], [244, 0], [248, 0], [252, 0], [256, 0], [260, 0], [264, 0], [268, 0], [272, 0], [276, 0], [280, 0], [284, 0], [288, 0]];     // [[posInicioBin, cuenta], ...] anchura 4
 const HIST_EXP = [[0, 313], [1, 78], [2, 66], [3, 35], [4, 30], [5, 17], [6, 8], [7, 2], [8, 1], [9, 1], [10, 5]];     // [[anios, cuenta], ...] anchura 1 (real, Anexo I)
 const HIST_OPOS = [[0, 126], [1, 209], [2, 172], [3, 47], [4, 2]];   // [[n opos superadas, cuenta], ...]
-const PEORES_CASOS = [[7.4059, 189, true], [7.3, 200, true], [7.2, 215, true], [7.1, 234, true]]; // [[nota final de Eva, peor puesto posible, garantizada], ...]
 const PLAZAS = 268;
 const HIST_BAR24 = [[0.0, 0], [0.5, 0], [1.0, 0], [1.5, 0], [2.0, 0], [2.5, 0], [3.0, 0], [3.5, 2], [4.0, 3], [4.5, 5], [5.0, 10], [5.5, 6], [6.0, 5], [6.5, 7], [7.0, 4], [7.5, 6], [8.0, 8], [8.5, 5], [9.0, 14], [9.5, 8], [10.0, 18]]; // [[baremo (bin 0,5), cuenta], ...]
-const CURVA = [[6.5, 0.0], [6.55, 0.0], [6.6, 0.0], [6.65, 0.0], [6.7, 0.0], [6.75, 0.0002], [6.8, 0.9655], [6.85, 1.0], [6.9, 1.0], [6.95, 1.0], [7.0, 1.0], [7.05, 1.0], [7.1, 1.0], [7.15, 1.0], [7.2, 1.0], [7.25, 1.0], [7.3, 1.0], [7.35, 1.0], [7.4, 1.0], [7.45, 1.0], [7.5, 1.0]];           // [[nota final, prob plaza 0-1], ...]
 const CORTE = 268, N_SIM = 10.000;
-const EVA_FINAL = parseFloat("7,4059".replace(",", "."));
 
 const TRIBS_BAREMO = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "20"];   // tribunales con baremos publicados
 const TRIB_EVA = "06";
@@ -294,50 +280,6 @@ function barra(svg, x, y0, y1, w, color) {
   return b;
 }
 const fmtNota = (v) => v.toFixed(3).replace('.', ',');
-
-/* ---------- 1. Curva probabilidad de plaza vs nota final ---------- */
-(function () {
-  const wrap = document.getElementById('chartCurva');
-  const tip = makeTooltip(wrap);
-  const W = 880, H = 320, L = 55, R = 25, T = 20, B = 46;
-  const svg = el('svg', { viewBox: `0 0 ${W} ${H}` }, wrap);
-  const x0 = CURVA[0][0], x1 = CURVA[CURVA.length - 1][0];
-  const x = (v) => L + ((v - x0) / (x1 - x0)) * (W - L - R);
-  const y = (p) => H - B - p * (H - T - B);
-
-  // banda 7,1 - 7,4 (horquilla de Eva)
-  el('rect', { x: x(7.1), y: T, width: x(7.4) - x(7.1), height: H - T - B, fill: css('--banda') }, svg);
-
-  [0, 0.25, 0.5, 0.75, 1].forEach(p => {
-    el('line', { x1: L, y1: y(p), x2: W - R, y2: y(p), stroke: css('--grid'), 'stroke-width': 1 }, svg);
-    el('text', { x: L - 8, y: y(p) + 4, 'text-anchor': 'end', 'font-size': 11, fill: css('--muted') }, svg).textContent = (100 * p) + '%';
-  });
-  CURVA.forEach(([v]) => {
-    if (Math.abs(v * 10 - Math.round(v * 10)) < 1e-6) {
-      el('text', { x: x(v), y: H - B + 18, 'text-anchor': 'middle', 'font-size': 11, fill: css('--muted') }, svg).textContent = v.toFixed(1).replace('.', ',');
-    }
-  });
-  el('line', { x1: L, y1: y(0), x2: W - R, y2: y(0), stroke: css('--axis'), 'stroke-width': 1 }, svg);
-
-  // nota calculada de Eva
-  if (EVA_FINAL >= x0 && EVA_FINAL <= x1) {
-    el('line', { x1: x(EVA_FINAL), y1: T - 2, x2: x(EVA_FINAL), y2: H - B, stroke: css('--ink-2'), 'stroke-width': 1.5, 'stroke-dasharray': '4 3' }, svg);
-    el('text', { x: x(EVA_FINAL), y: T - 6, 'text-anchor': 'middle', 'font-size': 11, 'font-weight': 600, fill: css('--ink-2') }, svg).textContent = 'nota calculada';
-  }
-
-  const d = CURVA.map(([v, p], i) => `${i ? 'L' : 'M'} ${x(v)} ${y(p)}`).join(' ');
-  el('path', { d, fill: 'none', stroke: css('--serie'), 'stroke-width': 2 }, svg);
-  CURVA.forEach(([v, p]) => {
-    const c = el('circle', { cx: x(v), cy: y(p), r: 4, fill: css('--serie'), stroke: css('--surface-1'), 'stroke-width': 2 }, svg);
-    bindHover(c, tip, wrap, `Nota ${fmtNota(v)}: <strong>${(100 * p).toFixed(1)}%</strong> de escenarios con plaza`);
-  });
-  el('text', { x: (L + W - R) / 2, y: H - 8, 'text-anchor': 'middle', 'font-size': 11.5, fill: css('--ink-2') }, svg).textContent = 'Nota final de Eva (⅔ oposición + ⅓ baremo)';
-
-  const tabla = document.getElementById('tablaCurva');
-  let rows = '<thead><tr><th>Nota final</th><th>Probabilidad de plaza</th></tr></thead><tbody>';
-  CURVA.forEach(([v, p]) => { rows += `<tr><td>${fmtNota(v)}</td><td>${(100 * p).toFixed(1)}%</td></tr>`; });
-  tabla.innerHTML = rows + '</tbody>';
-})();
 
 /* ---------- 2. Distribucion de posicion final ---------- */
 (function () {
@@ -400,18 +342,6 @@ const fmtNota = (v) => v.toFixed(3).replace('.', ',');
   HIST_EXP.forEach(([a, n], i) => { rows += `<tr><td>${a}${i === nBins - 1 ? ' o más' : ''}</td><td>${n}</td></tr>`; });
   tabla.innerHTML = rows + '</tbody>';
 })();
-
-/* ---------- 3b. Peores casos matematicos ---------- */
-(function () {
-  const fmt = (v) => v.toFixed(v === Math.round(v * 10) / 10 ? 1 : 4).replace('.', ',');
-  let rows = '<thead><tr><th>Nota final de Eva</th><th>Peor puesto posible</th><th>Plaza</th></tr></thead><tbody>';
-  PEORES_CASOS.forEach(([nota, peor, ok], i) => {
-    const etq = i === 0 ? `${fmt(nota)} (su baremo actual)` : fmt(nota);
-    rows += `<tr><td>${etq}</td><td>${peor}º de ${PLAZAS}</td><td>${ok ? '<strong>GARANTIZADA</strong>' : 'sin garantia matematica'}</td></tr>`;
-  });
-  document.getElementById('tablaPeores').innerHTML = rows + '</tbody>';
-})();
-
 
 /* ---------- 4. Oposiciones superadas ---------- */
 (function () {
