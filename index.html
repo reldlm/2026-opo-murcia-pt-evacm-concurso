@@ -185,6 +185,7 @@ svg text { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
   <p class="desc">Los baremos publicados son <strong>provisionales</strong>: en el plazo de alegaciones el tribunal solo puede revisar los méritos YA presentados (no se admiten méritos nuevos), y una reclamación estimada sube el baremo del reclamante. Este estrés mide el impacto suponiendo lo imposible: que <strong>los 292 rivales baremados que van detrás de Eva reclamaran TODOS con éxito</strong> la misma subida (tope 10 del baremo respetado). Sobre el peor caso matemático (189º, que ya incluye el tribunal pendiente al máximo):</p>
   <table id="tablaReclama"></table>
   <p class="desc" style="margin:12px 0 0;">Margen real: partiendo del peor caso, Eva puede absorber <strong>79 adelantamientos adicionales</strong> antes de caer del corte. En la práctica solo reclama una minoría, solo prosperan algunas, las subidas típicas son de décimas y las revisiones también pueden <em>bajar</em> baremos ajenos (efecto a favor de Eva que aquí se ignora).</p>
+  <p class="desc" style="margin:12px 0 0;" id="conclusionReclama"></p>
 </div>
 
 <div class="card">
@@ -247,6 +248,15 @@ document.addEventListener('DOMContentLoaded', function () {
     rows += `<tr><td>+${String(d).replace('.', ',')} puntos</td><td>${n}</td><td>${pos}º de 268</td><td>${ok ? '<strong>GARANTIZADA</strong>' : 'en riesgo'}</td></tr>`;
   });
   t.innerHTML = rows + '</tbody>';
+
+  // Conclusion con el escenario mas extremo de la tabla
+  const [dU, nU, posU, okU] = RECLAMA[RECLAMA.length - 1];
+  const c = document.getElementById('conclusionReclama');
+  if (c) {
+    c.innerHTML = okU
+      ? `<strong>Conclusión: ni con una subida universal de +${String(dU).replace('.', ',')} puntos de baremo</strong> para los 292 rivales baremados que van detrás — es decir, un fallo sistemático y masivo de los 19 tribunales publicados, corregido además en la misma dirección para todos — Eva saldría del corte: quedaría ${posU}ª con ${268 - posU} puestos de margen, y eso apilado sobre el peor caso matemático. <strong>La plaza aguanta cualquier escenario de reclamaciones formulable con números reales.</strong>`
+      : `Con una subida universal de +${String(dU).replace('.', ',')} puntos para los 292 rivales de detrás, Eva quedaría ${posU}ª: solo un fallo sistemático de esa magnitud en los 19 tribunales pondría la plaza en riesgo.`;
+  }
 });
 
 const css = (v) => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
