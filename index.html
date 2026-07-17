@@ -184,7 +184,7 @@ svg text { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
   <h2>¿Y si hay errores de baremación y prosperan reclamaciones?</h2>
   <p class="desc">Los baremos publicados son <strong>provisionales</strong>: en el plazo de alegaciones el tribunal solo puede revisar los méritos YA presentados (no se admiten méritos nuevos), y una reclamación estimada sube el baremo del reclamante. Este estrés mide el impacto suponiendo lo imposible: que <strong>los 292 rivales baremados que van detrás de Eva reclamaran TODOS con éxito</strong> la misma subida (tope 10 del baremo respetado). Sobre el peor caso matemático (189º, que ya incluye el tribunal pendiente al máximo):</p>
   <table id="tablaReclama"></table>
-  <p class="desc" style="margin:12px 0 0;">Margen real: partiendo del peor caso, Eva puede absorber <strong>79 adelantamientos adicionales</strong> antes de caer del corte. En la práctica solo reclama una minoría, solo prosperan algunas, las subidas típicas son de décimas y las revisiones también pueden <em>bajar</em> baremos ajenos (efecto a favor de Eva que aquí se ignora). Eva puede además reclamar el suyo si detecta méritos infravalorados.</p>
+  <p class="desc" style="margin:12px 0 0;">Margen real: partiendo del peor caso, Eva puede absorber <strong>79 adelantamientos adicionales</strong> antes de caer del corte. En la práctica solo reclama una minoría, solo prosperan algunas, las subidas típicas son de décimas y las revisiones también pueden <em>bajar</em> baremos ajenos (efecto a favor de Eva que aquí se ignora).</p>
 </div>
 
 <div class="card">
@@ -200,7 +200,7 @@ svg text { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
 </div>
 
 <div class="card">
-  <h2>Baremo de Eva (méritos confirmados)</h2>
+  <h2>Baremo de Eva (oficial)</h2>
   <table>
     <thead><tr><th>Bloque</th><th>Detalle</th><th>Puntos</th></tr></thead>
     <tbody>
@@ -210,7 +210,7 @@ svg text { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
       <tr><td><strong>Total</strong></td><td></td><td><strong>5,5833</strong></td></tr>
     </tbody>
   </table>
-  <p class="desc" style="margin:10px 0 0;">La tabla refleja los méritos que Eva tiene documentados. El baremo que usa TODO este estudio es de baremo REAL publicado por su tribunal: <strong>5,5833</strong>. Cuando el tribunal 06 publique su baremación, la cifra oficial sustituirá automáticamente a la confirmada en todos los cálculos.</p>
+  <p class="desc" style="margin:10px 0 0;">El baremo oficial publicado por el tribunal 06 (baremo REAL publicado por su tribunal) es <strong>5,5833</strong> y coincide exactamente con los méritos documentados de la tabla: la baremación de Eva es correcta y está cerrada. Es la cifra que usa todo este estudio.</p>
 </div>
 
 <div class="card">
@@ -236,7 +236,7 @@ const CORTE = 268, N_SIM = 10.000;
 
 const TRIBS_BAREMO = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "20"];   // tribunales con baremos publicados
 const TRIB_EVA = "06";
-const RECLAMA = [[0.25, 11, 200, true], [0.5, 15, 204, true], [1.0, 39, 228, true]];  // [[subida de baremo, adelantan, posicion, garantizada], ...]
+const RECLAMA = [[0.25, 11, 200, true], [0.5, 15, 204, true], [1.0, 39, 228, true], [1.25, 52, 241, true], [1.5, 59, 248, true]];  // [[subida de baremo, adelantan, posicion, garantizada], ...]
 
 /* ---------- 0b. Estres de reclamaciones ---------- */
 document.addEventListener('DOMContentLoaded', function () {
