@@ -120,11 +120,28 @@ svg text { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
   </div>
 </div>
 
+
+
 <div class="card">
   <h2>Baremos publicados: 19 de 20 tribunales (2 ya DEFINITIVOS)</h2>
   <p class="desc">461 rivales ya cuentan con su baremo REAL en este estudio. Los tribunales con ✓ han publicado la baremación <strong>definitiva</strong> (alegaciones resueltas: esos baremos ya no pueden cambiar); el resto está en provisional, dentro del plazo de reclamaciones. El tribunal de Eva es el 06 y su baremo es baremo REAL publicado por su tribunal.</p>
   <div class="progress-track"><div class="progress-fill" id="progresoBaremos"></div></div>
   <div class="trib-chips" id="chipsTribunales"></div>
+  <details>
+    <summary>Baremo medio por tribunal (severidad de baremación)</summary>
+    <table id="tablaSev"></table>
+    <p class="desc" style="margin:8px 0 0;">Diferencias moderadas entre tribunales indican criterios homogéneos; un tribunal muy desviado sería señal de criterio distinto (o de un perfil de opositores distinto).</p>
+  </details>
+</div>
+
+<div class="card">
+  <h2>Evolución de la predicción</h2>
+  <p class="desc">Posición final estimada de Eva a lo largo de los días (línea) con su horquilla al 90% (banda). La horquilla se estrecha conforme las notas y baremos publicados sustituyen a la simulación.</p>
+  <div class="chart-wrap" id="chartEvolucion"></div>
+  <details>
+    <summary>Ver como tabla</summary>
+    <table id="tablaEvolucion"></table>
+  </details>
 </div>
 
 <div class="card">
@@ -188,6 +205,15 @@ svg text { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
   <p class="desc" style="margin:12px 0 0;" id="conclusionReclama"></p>
   <h2 style="margin:20px 0 4px; font-size:0.95em;">Tendencia observada al pasar de provisional a definitiva</h2>
   <p class="desc">Muestra real acumulada de los tribunales que ya han publicado la baremación definitiva (crece automáticamente con cada tribunal que se sella): <strong>19 baremos seguidos</strong>, de los que subieron 9 (47%), con subida media de +0,42 y máxima de +0,79 puntos; ninguno bajó. Aplicando esa distribución observada a los rivales de detrás que siguen en provisional, los adelantamientos esperados por reclamaciones son <strong>≈7,3</strong> — la posición más probable de Eva tras las reclamaciones es la <strong>189ª de 268</strong>.</p>
+  <details>
+    <summary>Cambios observados por tribunal</summary>
+    <table id="tablaCambiosTrib"></table>
+  </details>
+</div>
+
+<div class="card">
+  <h2>Después de la plaza: orden para la elección de destino</h2>
+  <p class="desc">La posición en la lista de seleccionados también decide el orden de petición de destinos como funcionaria en prácticas (curso 2026-27). Con la posición de referencia actual (<strong>182ª de 268</strong>), Eva elegiría después de 181 seleccionados — en el percentil 68 de la promoción. Los destinos se adjudican por orden de lista sobre las vacantes ofertadas; las peticiones se presentan telemáticamente cuando la Consejería publique la convocatoria de adjudicación (habitualmente a finales de julio).</p>
 </div>
 
 <div class="card">
@@ -241,6 +267,9 @@ const TRIBS_BAREMO = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10"
 const TRIBS_DEF = ["11", "14"];         // tribunales con baremacion DEFINITIVA
 const TRIB_EVA = "06";
 const RECLAMA = [[0.25, 11, 200, true], [0.5, 15, 204, true], [1.0, 39, 228, true], [1.25, 52, 241, true], [1.5, 59, 248, true]];  // [[subida de baremo, adelantan, posicion, garantizada], ...]
+const CAMBIOS_TRIB = [["11", 4, 2, 0.37, 0.4], ["14", 15, 7, 0.43, 0.79]];   // [[tribunal, seguidos, suben, media subida, max subida], ...]
+const SEV_TRIB = [["01", 6.05, 12], ["02", 6.49, 27], ["03", 5.51, 22], ["04", 5.25, 31], ["05", 5.83, 30], ["06", 5.77, 30], ["07", 6.16, 23], ["08", 5.64, 33], ["09", 6.7, 17], ["10", 5.27, 22], ["11", 5.62, 18], ["12", 5.79, 26], ["13", 5.63, 26], ["14", 6.41, 15], ["15", 5.56, 21], ["16", 5.41, 35], ["17", 5.7, 29], ["18", 6.41, 23], ["20", 6.15, 22]];           // [[tribunal, baremo medio, n], ...]
+const EVOLUCION = [["2026-07-13", 150, 128, 173, 6.6056], ["2026-07-14", 178, 165, 190, 6.7907], ["2026-07-15", 179, 167, 191, 6.79], ["2026-07-16", 182, 177, 186, 6.81], ["2026-07-18", 182, 180, 184, 6.7749]];         // [[fecha, mediana, p5, p95, corte], ...]
 
 /* ---------- 0b. Estres de reclamaciones ---------- */
 document.addEventListener('DOMContentLoaded', function () {
@@ -314,6 +343,57 @@ function barra(svg, x, y0, y1, w, color) {
   return b;
 }
 const fmtNota = (v) => v.toFixed(3).replace('.', ',');
+
+/* ---------- 0c. Tablas: severidad por tribunal y cambios por tribunal ---------- */
+document.addEventListener('DOMContentLoaded', function () {
+  const ts = document.getElementById('tablaSev');
+  if (ts && SEV_TRIB.length) {
+    ts.innerHTML = '<thead><tr><th>Tribunal</th><th>Baremo medio</th><th>Personas</th></tr></thead><tbody>' +
+      SEV_TRIB.map(([t, m, n]) => `<tr><td>${t}</td><td>${String(m.toFixed(2)).replace('.', ',')}</td><td>${n}</td></tr>`).join('') + '</tbody>';
+  }
+  const tc = document.getElementById('tablaCambiosTrib');
+  if (tc && CAMBIOS_TRIB.length) {
+    tc.innerHTML = '<thead><tr><th>Tribunal</th><th>Baremos seguidos</th><th>Subieron</th><th>Subida media</th><th>Subida máxima</th></tr></thead><tbody>' +
+      CAMBIOS_TRIB.map(([t, n, s, m, x]) => `<tr><td>${t}</td><td>${n}</td><td>${s}</td><td>${s ? '+' + String(m.toFixed(2)).replace('.', ',') : '—'}</td><td>${s ? '+' + String(x.toFixed(2)).replace('.', ',') : '—'}</td></tr>`).join('') + '</tbody>';
+  }
+});
+
+/* ---------- 0d. Evolucion de la prediccion ---------- */
+(function () {
+  const wrap = document.getElementById('chartEvolucion');
+  if (!wrap || EVOLUCION.length < 2) { if (wrap) wrap.parentElement.style.display = 'none'; return; }
+  const tip = makeTooltip(wrap);
+  const W = 880, H = 300, L = 55, R = 25, T = 20, B = 46;
+  const svg = el('svg', { viewBox: `0 0 ${W} ${H}` }, wrap);
+  const fechas = EVOLUCION.map(e => e[0]);
+  const yMax = Math.max(280, ...EVOLUCION.map(e => e[3])) * 1.05;
+  const x = (i) => L + (EVOLUCION.length === 1 ? 0 : (i / (EVOLUCION.length - 1)) * (W - L - R));
+  const y = (v) => T + (v / yMax) * (H - T - B);   // eje invertido visualmente no: posicion 1 arriba
+  // rejilla horizontal
+  [50, 100, 150, 200, 250].forEach(v => {
+    el('line', { x1: L, y1: y(v), x2: W - R, y2: y(v), stroke: css('--grid'), 'stroke-width': 1 }, svg);
+    el('text', { x: L - 8, y: y(v) + 4, 'text-anchor': 'end', 'font-size': 11, fill: css('--muted') }, svg).textContent = v;
+  });
+  // corte 268
+  el('line', { x1: L, y1: y(268), x2: W - R, y2: y(268), stroke: css('--ink-2'), 'stroke-width': 1.5, 'stroke-dasharray': '5 4' }, svg);
+  el('text', { x: W - R, y: y(268) - 6, 'text-anchor': 'end', 'font-size': 11, 'font-weight': 600, fill: css('--ink-2') }, svg).textContent = 'corte: 268';
+  // banda p5-p95
+  const banda = EVOLUCION.map((e, i) => `${i ? 'L' : 'M'} ${x(i)} ${y(e[2])}`).join(' ') +
+    ' ' + EVOLUCION.slice().reverse().map((e, j) => `L ${x(EVOLUCION.length - 1 - j)} ${y(e[3])}`).join(' ') + ' Z';
+  el('path', { d: banda, fill: css('--banda') }, svg);
+  // linea mediana
+  const d = EVOLUCION.map((e, i) => `${i ? 'L' : 'M'} ${x(i)} ${y(e[1])}`).join(' ');
+  el('path', { d, fill: 'none', stroke: css('--serie'), 'stroke-width': 2 }, svg);
+  EVOLUCION.forEach((e, i) => {
+    const c = el('circle', { cx: x(i), cy: y(e[1]), r: 4.5, fill: css('--serie'), stroke: css('--surface-1'), 'stroke-width': 2 }, svg);
+    bindHover(c, tip, wrap, `${e[0].slice(8, 10)}/${e[0].slice(5, 7)}: <strong>${e[1]}ª</strong> (90%: ${e[2]}–${e[3]})`);
+    el('text', { x: x(i), y: H - B + 18, 'text-anchor': 'middle', 'font-size': 11, fill: css('--muted') }, svg).textContent = `${e[0].slice(8, 10)}/${e[0].slice(5, 7)}`;
+  });
+  el('text', { x: (L + W - R) / 2, y: H - 8, 'text-anchor': 'middle', 'font-size': 11.5, fill: css('--ink-2') }, svg).textContent = 'Posición final estimada (línea) y horquilla al 90% (banda), por día';
+  const tabla = document.getElementById('tablaEvolucion');
+  tabla.innerHTML = '<thead><tr><th>Día</th><th>Posición mediana</th><th>Horquilla 90%</th><th>Corte simulado</th></tr></thead><tbody>' +
+    EVOLUCION.map(e => `<tr><td>${e[0]}</td><td>${e[1]}ª</td><td>${e[2]} – ${e[3]}</td><td>${e[4] ? String(e[4].toFixed(2)).replace('.', ',') : '—'}</td></tr>`).join('') + '</tbody>';
+})();
 
 /* ---------- 2. Distribucion de posicion final ---------- */
 (function () {
