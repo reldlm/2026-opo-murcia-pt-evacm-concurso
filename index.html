@@ -77,7 +77,7 @@ svg text { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
 .progress-track { width: 100%; height: 10px; background: var(--grid); border-radius: 999px; overflow: hidden; }
 .progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--serie), var(--serie-suave)); border-radius: 999px; transition: width 0.3s ease; }
 .trib-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
-.trib-chip { width: 34px; text-align: center; padding: 4px 0; border-radius: 6px; font-size: 0.78em; font-variant-numeric: tabular-nums; border: 1px solid var(--border); color: var(--muted); }
+.trib-chip { min-width: 34px; padding: 4px 5px; text-align: center; border-radius: 6px; font-size: 0.78em; font-variant-numeric: tabular-nums; border: 1px solid var(--border); color: var(--muted); }
 .trib-chip.publicado { background: var(--serie); border-color: var(--serie); color: #fff; font-weight: 600; }
 .trib-chip.eva { outline: 2px solid var(--ink-2); outline-offset: 1px; }
 </style>
@@ -121,8 +121,8 @@ svg text { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
 </div>
 
 <div class="card">
-  <h2>Baremos publicados: 19 de 20 tribunales</h2>
-  <p class="desc">461 rivales ya cuentan con su baremo REAL en este estudio. El tribunal de Eva es el 06 y su baremo es baremo REAL publicado por su tribunal.</p>
+  <h2>Baremos publicados: 19 de 20 tribunales (2 ya DEFINITIVOS)</h2>
+  <p class="desc">461 rivales ya cuentan con su baremo REAL en este estudio. Los tribunales con ✓ han publicado la baremación <strong>definitiva</strong> (alegaciones resueltas: esos baremos ya no pueden cambiar); el resto está en provisional, dentro del plazo de reclamaciones. El tribunal de Eva es el 06 y su baremo es baremo REAL publicado por su tribunal.</p>
   <div class="progress-track"><div class="progress-fill" id="progresoBaremos"></div></div>
   <div class="trib-chips" id="chipsTribunales"></div>
 </div>
@@ -236,6 +236,7 @@ const HIST_BAR24 = [[0.0, 0], [0.5, 0], [1.0, 0], [1.5, 0], [2.0, 0], [2.5, 0], 
 const CORTE = 268, N_SIM = 10.000;
 
 const TRIBS_BAREMO = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "20"];   // tribunales con baremos publicados
+const TRIBS_DEF = ["11", "14"];         // tribunales con baremacion DEFINITIVA
 const TRIB_EVA = "06";
 const RECLAMA = [[0.25, 11, 200, true], [0.5, 15, 204, true], [1.0, 39, 228, true], [1.25, 52, 241, true], [1.5, 59, 248, true]];  // [[subida de baremo, adelantan, posicion, garantizada], ...]
 
@@ -267,10 +268,12 @@ const css = (v) => getComputedStyle(document.documentElement).getPropertyValue(v
   const cont = document.getElementById('chipsTribunales');
   for (let i = 1; i <= 20; i++) {
     const n = String(i).padStart(2, '0');
+    const def = TRIBS_DEF.includes(n);
     const chip = document.createElement('div');
     chip.className = 'trib-chip' + (TRIBS_BAREMO.includes(n) ? ' publicado' : '') + (n === TRIB_EVA ? ' eva' : '');
-    chip.textContent = n;
-    chip.title = (n === TRIB_EVA ? 'Tribunal de Eva — ' : 'Tribunal ' + n + ' — ') + (TRIBS_BAREMO.includes(n) ? 'baremos publicados' : 'pendiente');
+    chip.textContent = n + (def ? '✓' : '');
+    chip.title = (n === TRIB_EVA ? 'Tribunal de Eva — ' : 'Tribunal ' + n + ' — ') +
+      (def ? 'baremos DEFINITIVOS' : (TRIBS_BAREMO.includes(n) ? 'baremos provisionales (en plazo de alegaciones)' : 'pendiente'));
     cont.appendChild(chip);
   }
 })();
