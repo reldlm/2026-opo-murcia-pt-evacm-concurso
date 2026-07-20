@@ -100,7 +100,7 @@ svg text { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
   </div>
   <div class="tile">
     <div class="label">Proyección tras alegaciones</div>
-    <div class="value">≈187ª</div>
+    <div class="value">≈186ª</div>
     <div class="note">con la tendencia observada al pasar de provisional a definitiva (3/20 tribunales ya definitivos)</div>
   </div>
   <div class="tile">
@@ -199,7 +199,7 @@ svg text { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
   <p class="desc" style="margin:12px 0 0;">Margen real: partiendo del peor caso, Eva puede absorber <strong>85 adelantamientos adicionales</strong> antes de caer del corte. En la práctica solo reclama una minoría, solo prosperan algunas, las subidas típicas son de décimas y las revisiones también pueden <em>bajar</em> baremos ajenos (efecto a favor de Eva que aquí se ignora).</p>
   <p class="desc" style="margin:12px 0 0;" id="conclusionReclama"></p>
   <h2 style="margin:20px 0 4px; font-size:0.95em;">Tendencia observada al pasar de provisional a definitiva</h2>
-  <p class="desc">Muestra real acumulada de los tribunales que ya han publicado la baremación definitiva (crece automáticamente con cada tribunal que se sella). Se comparan <strong>45 baremaciones</strong> (todas las de esos tribunales, no solo las reclamadas) entre su versión provisional y la definitiva: <strong>35 quedaron igual y 10 subieron</strong> (22% del total), con subida media de +0,41 y máxima de +0,79 puntos; ninguna bajó. Aplicando esa distribución observada a los rivales de detrás que siguen en provisional, los adelantamientos esperados por reclamaciones son <strong>≈3,6</strong> — la posición más probable de Eva tras las reclamaciones es la <strong>187ª de 268</strong>.</p>
+  <p class="desc">Muestra real acumulada de los tribunales que ya han publicado la baremación definitiva (crece automáticamente con cada tribunal que se sella). Se comparan <strong>59 baremaciones</strong> (todas las de esos tribunales, no solo las reclamadas) entre su versión provisional y la definitiva: <strong>47 quedaron igual y 12 subieron</strong> (20% del total), con subida media de +0,43 y máxima de +1,00 puntos; ninguna bajó. Aplicando esa distribución observada a los rivales de detrás que siguen en provisional, los adelantamientos esperados por reclamaciones son <strong>≈3,5</strong> — la posición más probable de Eva tras las reclamaciones es la <strong>186ª de 268</strong>.</p>
   <details>
     <summary>Detalle por tribunal (todas las personas comparadas, no solo las que cambiaron)</summary>
     <table id="tablaCambiosTrib"></table>
@@ -262,7 +262,7 @@ const TRIBS_BAREMO = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10"
 const TRIBS_DEF = ["11", "12", "14"];         // tribunales con baremacion DEFINITIVA
 const TRIB_EVA = "06";
 const RECLAMA = [[0.25, 13, 196, true], [0.5, 17, 200, true], [1.0, 42, 225, true], [1.25, 57, 240, true], [1.5, 64, 247, true]];  // [[subida de baremo, adelantan, posicion, garantizada], ...]
-const CAMBIOS_TRIB = [["11", 4, 2, 0.37, 0.4], ["12", 26, 1, 0.37, 0.37], ["14", 15, 7, 0.43, 0.79]];   // [[tribunal, seguidos, suben, media subida, max subida], ...]
+const CAMBIOS_TRIB = [["11", 18, 4, 0.44, 1.0], ["12", 26, 1, 0.37, 0.37], ["14", 15, 7, 0.43, 0.79]];   // [[tribunal, seguidos, suben, media subida, max subida], ...]
 const SEV_TRIB = [["01", 6.05, 12], ["02", 6.49, 27], ["03", 5.51, 22], ["04", 5.25, 31], ["05", 5.83, 30], ["06", 5.77, 30], ["07", 6.16, 23], ["08", 5.64, 33], ["09", 6.67, 17], ["10", 5.27, 22], ["11", 5.62, 18], ["12", 5.81, 26], ["13", 5.63, 26], ["14", 6.41, 15], ["15", 5.56, 21], ["16", 5.41, 35], ["17", 5.88, 29], ["18", 6.41, 23], ["19", 6.42, 28], ["20", 6.15, 22]];           // [[tribunal, baremo medio, n], ...]
 const EVOLUCION = [["2026-07-13", 150, 128, 173, 6.6056], ["2026-07-14", 178, 165, 190, 6.7907], ["2026-07-15", 179, 167, 191, 6.79], ["2026-07-16", 182, 177, 186, 6.81], ["2026-07-18", 182, 180, 184, 6.7749], ["2026-07-20", 183, 183, 183, 6.7681]];         // [[fecha, mediana, p5, p95, corte], ...]
 
